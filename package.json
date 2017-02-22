@@ -1,0 +1,29 @@
+{
+  "name": "tsv-to-csv",
+  "version": "1.0.0",
+  "description": "Scrap HTML page and put values in a csv file that can be downloaded",
+  "main": "index.js",
+  "scripts": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/oxynum/Tsv-to-csv.git"
+  },
+  "keywords": [
+    "csv",
+    "tsv",
+    "git",
+    "github",
+    "nodejs",
+    "javascript",
+    "mail",
+    "scrap"
+  ],
+  "author": "Maxime Gasnier",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/oxynum/Tsv-to-csv/issues"
+  },
+  "homepage": "https://github.com/oxynum/Tsv-to-csv#readme"
+}
