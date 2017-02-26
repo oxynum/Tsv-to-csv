@@ -28,5 +28,9 @@
   "homepage": "https://github.com/oxynum/Tsv-to-csv#readme",
   "devDependencies": {
     "electron": "^1.4.15"
+  },
+  "dependencies": {
+    "colors": "^1.1.2",
+    "express": "^4.14.1"
   }
 }
