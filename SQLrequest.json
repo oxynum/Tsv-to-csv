@@ -1,1 +1,1 @@
-{"request":"SELECT * FROM database WHERE machin > MACHIN"}
+{"request":"select p.produit as SKU, sum(s.stock) as quantity from produitsfiches pf join produits p using (barcode) join stock s using (barcode, couleur, taille) where pf.saison='SUM17' and AR=1 and s.codemag in ('STGERMAIN','MARBEUF','PASSY','SCRIBE') group by p.produit"}

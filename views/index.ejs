@@ -11,6 +11,7 @@
     </div>
       <div class="jumbotron text-center">
         <h1>Comma Point</h1>
+        <h2><%= new Date().toLocaleDateString() %></h2>
         <h3>Current Query:</h3>
         <code><%= query %></code> <!-- PUT JAVASCRIPT VAR -->
         <hr>
@@ -18,10 +19,21 @@
           <div class="input-group">
             <input type="text" class="form-control" name="query" placeholder="Register new request">
               <span class="input-group-btn">
-                <input class="btn btn-success" type="submit">Save Query</input>
+                <input class="btn btn-success" type="submit" value="Save Query"></input>
               </span>
           </div>
         </form >
+        <form class="col-lg-6" action="executeQuery" method="post">
+          <input class="btn btn-primary" type="submit" value="See Result"></input>
+        </form>
       </div>
+
+      <% if(table != null) { %>
+        <div class="jumbotron text-center">
+          <h3>Informations written in file: <%= file %></h3>
+          <a href="csv-files/<%= file %>"><button class="btn btn-success" type="button" name="button">Click to get CSV</button></a>
+        </div>
+      <%}%>
+
 
 <% include partials/footer %>

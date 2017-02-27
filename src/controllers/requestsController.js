@@ -16,8 +16,13 @@ function getQueryJSON() {
 */
 function updateQueryJSON(newQuery) {
   addQueryToHistory(file.get("request"));
+  if(newQuery == null || newQuery == '') return;
+  
+  console.log('UPDATE REQUEST IN JSON: ' + file + '\n New: ' + newQuery);
+
   file.set("request", newQuery);
   file.writeSync();
+
   return true;
 }
 
@@ -25,7 +30,7 @@ function updateQueryJSON(newQuery) {
 * TODO NOT YET IMPLEMENTED
 */
 function addQueryToHistory(query) {
-  console.log('ERROR NOT YEST IMPLEMENTED');
+
 }
 
 /**
