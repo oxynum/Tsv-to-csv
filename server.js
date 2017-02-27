@@ -1,22 +1,43 @@
 const port = process.env.PORT || 9000;
-let express = require('express'),
-    app     = express(),
-    colors  = require('colors');
+let express            = require('express'),
+    app                = express(),
+    colors             = require('colors'),
+    bodyParser         = require('body-parser'),
+    requestsController = require('./src/controllers/requestsController');
 
-console.log('Welcome to one of the SimbaDev app.' + ' -> Developed by Oxynum Team'.blue);
+console.log('Welcome to one of the SimbaDev app.' + ' -> Developed by Oxynum Team'.cyan);
 
 app.set('view engine', 'ejs');
 app.use(express.static(__dirname + '/public'));
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extend: true }));
 
-app.get('/', (request, response) => {
-  response.render('index');
+// DEFINE ROUTES : '/'
+app.get('/', (req, res) => {
+  let query = {
+    query : requestsController.getQueryJSON()
+  };
+
+  res.render('index', query);
+});
+app.post('/', (req, res) => {
+  requestsController.updateQueryJSON(req.body.query);
+
+  let query = {
+    query : requestsController.getQueryJSON()
+  };
+  res.render('index', query);
 });
 
-app.get('/filesCsv', (request, response) => {
+//-----------------------------------------
+// DEFINE ROUTES : '/filesCsv'
+app.get('/filesCsv', (req, res) => {
 
 });
 
-app.get('/checkRequest', (request, response) => {
+//-----------------------------------------
+// DEFINE ROUTES : '/checkRequest'
+app.get('/checkRequest', (req, res) => {
 
 });
 
