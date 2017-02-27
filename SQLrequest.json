@@ -1,3 +1,1 @@
-{
-  "request":"SELECT * FROM database WHERE Machin avec truc okxedcjnzdruc"
-}
+{"request":"SELECT * FROM database WHERE machin > MACHIN"}
