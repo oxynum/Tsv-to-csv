@@ -1,6 +1,6 @@
 var sendmail = require('sendmail');
 
-function sendMail() {
+(function sendMail() {
 
   sendmail({
     from: 'maxime@oxynum.fr',
@@ -13,8 +13,4 @@ function sendMail() {
     console.log(err && err.stack)
     console.dir(reply)
   })
-}
-
-module.exports = {
-  sendCSV: sendMail
-}
+})();
