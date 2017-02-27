@@ -1,5 +1,20 @@
 <% include partials/header %>
-<div class="jumbotron">
-  <h1>Not yet implemented</h1>
-</div>
+
+      <div class="container">
+        <div class = "row">
+            <div class = "col-md-4">
+              <% if(csvFiles != null){ %>
+
+                <div class="card-base">
+                  <div class="card-icon"><a href="#" title="Widgets" id="widgetCardIcon" class="imagecard"><span class="glyphicon glyphicon-th-list"></span></a>
+                    <div class="card-data widgetCardData">
+                      <h2 class="box-title" style="color: #bb7824;">Widgets</h2>
+                      <a href="#" title="Style Builder" class="anchor btn btn-default" style="background: #bb7824; border: #bb7824;"> <i class="fa fa-paper-plane" aria-hidden="true"></i> Download CSV </a></div>
+                    </div>
+          <div class="space"></div>
+              <% } %>
+          </div>
+            </div>
+        </div>
+    </div>
 <% include partials/footer %>

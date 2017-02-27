@@ -22,7 +22,8 @@ app.get('/', function(req, res) {
     query : requestsController.getQueryJSON(),
     table: null,
     data: csvController.data,
-    file: ""
+    file: "",
+    csvFiles:""
   };
   res.render('index', query);
 });
@@ -32,7 +33,8 @@ app.post('/', function(req, res) {
     query : requestsController.getQueryJSON(),
     table: null,
     data: csvController.data,
-    file: ""
+    file: "",
+    csvFiles:""
   };
   res.render('index', query);
 });
@@ -40,7 +42,10 @@ app.post('/', function(req, res) {
 //-----------------------------------------
 // DEFINE ROUTES : '/filesCsv'
 app.get('/filesCsv', function(req, res)  {
-  res.render('page-AllCSV');
+  var query = {
+    csvFiles:""
+  };
+  res.render('page-AllCSV', query);
 });
 
 //-----------------------------------------
@@ -50,7 +55,8 @@ app.post('/executeQuery', function(req, res) {
     query : requestsController.getQueryJSON(),
     table : csvController.getData(requestsController.getQueryJSON()),
     data: csvController.data,
-    file: csvController.file
+    file: csvController.file,
+    csvFiles:""
   };
   res.render('index', query);
 });
@@ -60,7 +66,8 @@ app.post('/sendMail', function(req, res) {
     query : requestsController.getQueryJSON(),
     table : null,
     data: csvController.data,
-    file: csvController.file
+    file: csvController.file,
+    csvFiles:""
   };
   mailerController.sendCSV();
   res.render('index', query);
