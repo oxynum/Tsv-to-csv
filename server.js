@@ -22,7 +22,6 @@ app.get('/', (req, res) => {
 });
 app.post('/', (req, res) => {
   requestsController.updateQueryJSON(req.body.query);
-
   let query = {
     query : requestsController.getQueryJSON()
   };
