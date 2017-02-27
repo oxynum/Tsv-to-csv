@@ -9,7 +9,15 @@ app.set('view engine', 'ejs');
 app.use(express.static(__dirname + '/public'));
 
 app.get('/', (request, response) => {
-  response.render('index', {number: 4});
+  response.render('index');
+});
+
+app.get('/filesCsv', (request, response) => {
+
+});
+
+app.get('/checkRequest', (request, response) => {
+
 });
 
 app.listen(port, () => {
