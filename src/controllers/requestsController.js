@@ -1,4 +1,4 @@
-let jsonfile = require('json-file'), //TODO: TO REFACTO with module exports
+var jsonfile = require('json-file'), //TODO: TO REFACTO with module exports
     file     = jsonfile.read('SQLrequest.json');
 
 
@@ -17,7 +17,7 @@ function getQueryJSON() {
 function updateQueryJSON(newQuery) {
   addQueryToHistory(file.get("request"));
   if(newQuery == null || newQuery == '') return;
-  
+
   console.log('UPDATE REQUEST IN JSON: ' + file + '\n New: ' + newQuery);
 
   file.set("request", newQuery);

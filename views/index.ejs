@@ -32,6 +32,10 @@
         <div class="jumbotron text-center">
           <h3>Informations written in file: <%= file %></h3>
           <a href="csv-files/<%= file %>"><button class="btn btn-success" type="button" name="button">Click to get CSV</button></a>
+          <form class="col-lg-6" action="sendMail" method="post">
+            <input class="btn btn-warning" type="submit" value="Send Mail"></input>
+          </form>
+
         </div>
       <%}%>
 

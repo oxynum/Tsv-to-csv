@@ -1,7 +1,7 @@
 const fs = require('fs');
 var data = "";
 var json2csv = require('json2csv');
-let tsv  = require('tsv'),
+var tsv  = require('tsv'),
     csv  = tsv.csv,
     http = require('http');
 
@@ -10,10 +10,10 @@ let tsv  = require('tsv'),
 *
 */
 function  getData(query) {
- let basicUrl     = 'http:\/\/vmh1.fastmag.fr\/ediquery.ips?enseigne=BLEUCOMMEGRIS&magasin=SCHOOL&compte=HOMEMADE_B&motpasse=BCGediHM&data=',
+ var basicUrl     = 'http:\/\/vmh1.fastmag.fr\/ediquery.ips?enseigne=BLEUCOMMEGRIS&magasin=SCHOOL&compte=HOMEMADE_B&motpasse=BCGediHM&data=',
      realQuery    = (query.split(' ').join('%20')).split("'").join('%27'),
-     completeUrl  = basicUrl + realQuery;
- var dataToReturn = "";
+     completeUrl  = basicUrl + realQuery,
+     dataToReturn = "";
 
  console.log('Request launch for BASIC URL :' + basicUrl);
  console.log('Request with Query : ' + query);
@@ -22,23 +22,19 @@ function  getData(query) {
 return  http.get({
     host:"vmh1.fastmag.fr",
     path:"/ediquery.ips?enseigne=BLEUCOMMEGRIS&magasin=SCHOOL&compte=HOMEMADE_B&motpasse=BCGediHM&data=" + realQuery,
-  }, (res) => {
+  }, function(res) {
 
     res.setEncoding('utf8');
-    res.on('data', (dataToPut) => {
+    res.on('data', function(dataToPut) {
       if(dataToPut == '\n'){
-        console.log("info");
       } else {
-        console.log("la petite erreur");
         dataToReturn += dataToPut;
       }
-      console.log(dataToPut);
     });
-    res.on('end', () => {
+    res.on('end', function() {
       data = dataToReturn;
       createCSVFile();
     })
-
   }).on('error', function(e) {
     console.log('ERROR: ' + e.message);
   }).toString();
@@ -51,7 +47,7 @@ function getTable(query) {
 }
 
 function createCSVFile() {
-  let currentDate = (new Date()).toLocaleDateString().split('/').join('-'),
+  var currentDate = (new Date()).toLocaleDateString().split('/').join('-'),
       fileName    = "BCG-" + currentDate + '.csv',
       tsvContent  = treatTSVForNullValue(tsv.parse(data)),
       csvFile     = json2csv({
@@ -59,26 +55,26 @@ function createCSVFile() {
         fields: [ "SKU", 'quantity'],
         del: ";"
       });
-      
-  console.log(tsvContent);
 
-  fs.writeFile("public/csv-files/" + fileName, csvFile, (err) => {
+  fs.writeFile("public/csv-files/" + fileName, csvFile, function(err) {
     if (err) throw err;
     console.log('File saved: ' + fileName);
   });
 }
 
+/**
+* @private
+*/
 function treatTSVForNullValue(tsv) {
-  let tsvClean = [];
+  var tsvClean = [];
 
-  tsv.forEach((v,i) => {
+  tsv.forEach(function(v,i) {
     if(v.SKU == '') {
       console.log(v.SKU);
     } else {
       tsvClean[i] = v;
     }
   });
-
   return tsvClean;
 }
 

@@ -1,10 +1,13 @@
+
+
 const port = process.env.PORT || 9000;
-let express            = require('express'),
+var express            = require('express'),
     app                = express(),
     colors             = require('colors'),
     bodyParser         = require('body-parser'),
     requestsController = require('./src/controllers/requestsController'),
-    csvController      = require('./src/controllers/csvFilesController');
+    csvController      = require('./src/controllers/csvFilesController'),
+    mailerController   = require('./src/controllers/mailerController');
 
 console.log('Welcome to one of the SimbaDev app.' + ' -> Developed by Oxynum Team'.cyan);
 
@@ -14,36 +17,36 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extend: true }));
 
 // DEFINE ROUTES : '/'
-app.get('/', (req, res) => {
-  let query = {
+app.get('/', function(req, res) {
+  var query = {
     query : requestsController.getQueryJSON(),
     table: null,
     data: csvController.data,
-    file: "hzy"
+    file: ""
   };
   res.render('index', query);
 });
-app.post('/', (req, res) => {
+app.post('/', function(req, res) {
   requestsController.updateQueryJSON(req.body.query);
-  let query = {
+  var query = {
     query : requestsController.getQueryJSON(),
     table: null,
     data: csvController.data,
-    file: "hzy"
+    file: ""
   };
   res.render('index', query);
 });
 
 //-----------------------------------------
 // DEFINE ROUTES : '/filesCsv'
-app.get('/filesCsv', (req, res) => {
-
+app.get('/filesCsv', function(req, res)  {
+  res.render('page-AllCSV');
 });
 
 //-----------------------------------------
 // DEFINE ROUTES : '/checkRequest'
-app.post('/executeQuery', (req, res) => {
-  let query = {
+app.post('/executeQuery', function(req, res) {
+  var query = {
     query : requestsController.getQueryJSON(),
     table : csvController.getData(requestsController.getQueryJSON()),
     data: csvController.data,
@@ -52,7 +55,22 @@ app.post('/executeQuery', (req, res) => {
   res.render('index', query);
 });
 
-app.listen(port, () => {
+app.post('/sendMail', function(req, res) {
+  var query = {
+    query : requestsController.getQueryJSON(),
+    table : null,
+    data: csvController.data,
+    file: csvController.file
+  };
+  mailerController.sendCSV();
+  res.render('index', query);
+});
+
+
+app.get('*', function(req, res){
+  res.send('Nope sorry');
+});
+app.listen(port, function() {
   console.log('App running on: '.green + port);
   console.log('To get started with this app, start by construct your own SQL request... '.yellow);
   console.log('Then you can try to launch it and download the file.'.yellow);
