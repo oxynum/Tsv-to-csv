@@ -1,7 +1,7 @@
 var Mailjet = require ('node-mailjet')
   .connect("b66aeb1489a86390a6ff914f915e423f", "3a414a588dd751e931bcdf3162d3b636");
 var jsonfile = require('json-file'), //TODO: TO REFACTO with module exports
-    file     = jsonfile.read('SQLrequest.json');
+    file     = jsonfile.read('tsv/SQLrequest.json');
 const fs     = require('fs');
 var data     = "",
     json2csv = require('json2csv'),
@@ -93,7 +93,7 @@ function treatTSVForNullValue(tsv) {
 */
 function sendMail(csvToSend) {
   var sendEmail = Mailjet.post('send'),
-      receiver  = 'maxime@oxynum.fr';
+      receiver  = 'pascal@oxynum.fr';
 
   var emailData = {
       'FromEmail': 'bcgparis.com@gmail.com',
@@ -119,7 +119,7 @@ function sendMail(csvToSend) {
 }
 
 
-var j = schedule.scheduleJob('* * * * *', function() {
+var j = schedule.scheduleJob('0 20 * * *', function() {
   var query   = getQueryJSON();
   executeQuery(query); //csvFile created
 });
