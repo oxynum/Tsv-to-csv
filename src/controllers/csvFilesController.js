@@ -1,13 +1,13 @@
-const fs = require('fs');
-var data = "";
-var json2csv = require('json2csv');
-var tsv  = require('tsv'),
-    csv  = tsv.csv,
-    http = require('http');
+const fs     = require('fs');
+var data     = "",
+    json2csv = require('json2csv'),
+    tsv      = require('tsv'),
+    csv      = tsv.csv,
+    http     = require('http');
 
 /**
-*
-*
+* Will get all datas from website thanks to query thrown.
+* @param {string} query corresponds to a sql query
 */
 function  getData(query) {
  var basicUrl     = 'http:\/\/vmh1.fastmag.fr\/ediquery.ips?enseigne=BLEUCOMMEGRIS&magasin=SCHOOL&compte=HOMEMADE_B&motpasse=BCGediHM&data=',
@@ -46,6 +46,10 @@ function getTable(query) {
   return data;
 }
 
+/**
+* Will create a CSV file with today's date. In the publi folder of the app
+* @param {NoParam}
+*/
 function createCSVFile() {
   var currentDate = (new Date()).toLocaleDateString().split('/').join('-'),
       fileName    = "BCG-" + currentDate + '.csv',
@@ -64,6 +68,8 @@ function createCSVFile() {
 
 /**
 * @private
+* Will just treat the TSV file get and erased null values triggered
+* @param {array} tsv array of object that will be triggered
 */
 function treatTSVForNullValue(tsv) {
   var tsvClean = [];
