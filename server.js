@@ -1,6 +1,6 @@
 
 
-const port = process.env.PORT || 9000;
+const port             = process.env.PORT || 9000;
 var express            = require('express'),
     app                = express(),
     colors             = require('colors'),

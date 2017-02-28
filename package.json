@@ -45,6 +45,7 @@
     "express": "^4.14.1",
     "json-file": "^0.1.0",
     "json2csv": "^3.7.3",
+    "node-mailjet": "^3.0.6",
     "nodemailer": "^3.1.4",
     "sendmail": "^1.1.1",
     "tsv": "^0.2.0"
