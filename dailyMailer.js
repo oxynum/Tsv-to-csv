@@ -9,6 +9,7 @@ var data     = "",
     csv      = tsv.csv,
     http     = require('http'),
     url      = require('url');
+var schedule = require('node-schedule');
 
 
 /**
@@ -118,10 +119,7 @@ function sendMail(csvToSend) {
 }
 
 
-/**
-* @public
-*/
-(function dailyMailerMain() {
+var j = schedule.scheduleJob('* * * * *', function() {
   var query   = getQueryJSON();
   executeQuery(query); //csvFile created
-})();
+});
