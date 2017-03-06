@@ -1,19 +1,20 @@
+const fs    = require('fs');
 var Mailjet = require ('node-mailjet')
   .connect("b66aeb1489a86390a6ff914f915e423f", "3a414a588dd751e931bcdf3162d3b636");
-var jsonfile = require('json-file'), //TODO: TO REFACTO with module exports
-    file     = jsonfile.read('tsv/SQLrequest.json');
-const fs     = require('fs');
-var data     = "",
+    jsonfile = require('json-file'),
+    file     = jsonfile.read('tsv/SQLrequest.json'),
+    data     = "",
     json2csv = require('json2csv'),
     tsv      = require('tsv'),
     csv      = tsv.csv,
     http     = require('http'),
-    url      = require('url');
-var schedule = require('node-schedule');
+    url      = require('url'),
+    schedule = require('node-schedule');
 
 
 /**
 * @private
+* Method that will get the the query in a json data file.
 */
 function getQueryJSON() {
   console.log(file.get("request"));
@@ -22,8 +23,11 @@ function getQueryJSON() {
 
 /**
 * @private
+* Will execute the query method after has been selected in the json data file.
+* @param {String} query the query to execute. (please provide a valid SQL syntax)
+* @param {Function} callback this function will be executed at the end of the load of the data
 */
-function executeQuery(query) {
+function executeQuery(query, callback) {
   var basicUrl     = 'http:\/\/vmh1.fastmag.fr\/ediquery.ips?enseigne=BLEUCOMMEGRIS&magasin=SCHOOL&compte=HOMEMADE_B&motpasse=BCGediHM&data=',
       realQuery    = (query.split(' ').join('%20')).split("'").join('%27'),
       completeUrl  = basicUrl + realQuery,
@@ -47,7 +51,7 @@ function executeQuery(query) {
      });
      res.on('end', function() {
        data = dataToReturn;
-       getCSVcontent(data);
+       callback(data);
      })
    }).on('error', function(e) {
      console.log('ERROR: ' + e.message);
@@ -56,6 +60,8 @@ function executeQuery(query) {
 
 /**
 * @private
+* Will get the CSV content of the file.
+* @param {string} result string in ut8 encoded that will be read as CSV datas.
 */
 function getCSVcontent(result) {
   var currentDate = (new Date()).toLocaleDateString().split('/').join('-'),
@@ -63,7 +69,7 @@ function getCSVcontent(result) {
       tsvContent  = treatTSVForNullValue(tsv.parse(result)),
       csvFile     = json2csv({
         data: tsvContent,
-        fields: [ "SKU", 'quantity'],
+        fields: [ "SKUcolorsize", 'Quantity'],
         del: ";"
       });
 
@@ -80,7 +86,7 @@ function treatTSVForNullValue(tsv) {
   var tsvClean = [];
 
   tsv.forEach(function(v,i) {
-    if(v.SKU == '') {
+    if(v.SKUcolorsize == '') {
     } else {
       tsvClean[i] = v;
     }
@@ -93,20 +99,20 @@ function treatTSVForNullValue(tsv) {
 */
 function sendMail(csvToSend) {
   var sendEmail = Mailjet.post('send'),
-      receiver  = 'pascal@oxynum.fr';
+      receiver  = 'pascal@happit.fr';
 
   var emailData = {
-      'FromEmail': 'bcgparis.com@gmail.com',
-      'FromName': 'Daily Information: ' + new Date().toLocaleDateString().split('/').join('-'),
-      'Subject': 'Daily Information: ' + new Date().toLocaleDateString().split('/').join('-'),
+      'FromEmail': 'hello@acbbvolley.fr',
+      'FromName': 'BCG',
+      'Subject': 'Daily stock info. from BCG.',
       'Text-part': 'This is your daily csv file for BCG : ' +  "BCG-" + new Date().toLocaleDateString().split('/').join('-') + ".csv",
-      'Recipients': [{'Email': receiver}],
+      'Recipients': [{'Email': receiver},{'Email': 'sabreena@mineminekids.com'}],
     'Attachments': [{
       "Content-Type": "text-plain",
       "Filename": "BCG-" + new Date().toLocaleDateString().split('/').join('-') + ".csv",
       "Content": new Buffer(csvToSend).toString('base64')
     }],
-  }
+  };
 
   sendEmail
     .request(emailData)
@@ -119,7 +125,7 @@ function sendMail(csvToSend) {
 }
 
 
-var j = schedule.scheduleJob('0 20 * * *', function() {
+var j = schedule.scheduleJob('0 13 * * *', function() {
   var query   = getQueryJSON();
-  executeQuery(query); //csvFile created
+  executeQuery(query, getCSVcontent);
 });

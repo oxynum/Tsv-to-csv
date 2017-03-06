@@ -56,10 +56,10 @@ function createCSVFile() {
       tsvContent  = treatTSVForNullValue(tsv.parse(data)),
       csvFile     = json2csv({
         data: tsvContent,
-        fields: [ "SKU", 'quantity'],
+        fields: [ "SKUcolorsize", 'Quantity'],
         del: ";"
       });
-      
+
   fs.writeFile("public/csv-files/" + fileName, csvFile, function(err) {
     if (err) throw err;
     console.log('File saved: ' + fileName);
@@ -75,8 +75,8 @@ function treatTSVForNullValue(tsv) {
   var tsvClean = [];
 
   tsv.forEach(function(v,i) {
-    if(v.SKU == '') {
-      console.log(v.SKU);
+    if(v.SKUcolorsize == '') {
+      console.log(v.SKUcolorsize);
     } else {
       tsvClean[i] = v;
     }
