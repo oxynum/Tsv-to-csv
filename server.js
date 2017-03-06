@@ -1,6 +1,6 @@
 
 
-const port             = process.env.PORT || 9000;
+const port = process.env.PORT || 9000;
 var express            = require('express'),
     app                = express(),
     colors             = require('colors'),
@@ -22,8 +22,7 @@ app.get('/', function(req, res) {
     query : requestsController.getQueryJSON(),
     table: null,
     data: csvController.data,
-    file: "",
-    csvFiles:""
+    file: ""
   };
   res.render('index', query);
 });
@@ -33,8 +32,7 @@ app.post('/', function(req, res) {
     query : requestsController.getQueryJSON(),
     table: null,
     data: csvController.data,
-    file: "",
-    csvFiles:""
+    file: ""
   };
   res.render('index', query);
 });
@@ -42,10 +40,7 @@ app.post('/', function(req, res) {
 //-----------------------------------------
 // DEFINE ROUTES : '/filesCsv'
 app.get('/filesCsv', function(req, res)  {
-  var query = {
-    csvFiles:""
-  };
-  res.render('page-AllCSV', query);
+  res.render('page-AllCSV');
 });
 
 //-----------------------------------------
@@ -55,8 +50,7 @@ app.post('/executeQuery', function(req, res) {
     query : requestsController.getQueryJSON(),
     table : csvController.getData(requestsController.getQueryJSON()),
     data: csvController.data,
-    file: csvController.file,
-    csvFiles:""
+    file: csvController.file
   };
   res.render('index', query);
 });
@@ -66,8 +60,7 @@ app.post('/sendMail', function(req, res) {
     query : requestsController.getQueryJSON(),
     table : null,
     data: csvController.data,
-    file: csvController.file,
-    csvFiles:""
+    file: csvController.file
   };
   mailerController.sendCSV();
   res.render('index', query);

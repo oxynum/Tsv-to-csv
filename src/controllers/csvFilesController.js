@@ -59,7 +59,7 @@ function createCSVFile() {
         fields: [ "SKU", 'quantity'],
         del: ";"
       });
-
+      
   fs.writeFile("public/csv-files/" + fileName, csvFile, function(err) {
     if (err) throw err;
     console.log('File saved: ' + fileName);
